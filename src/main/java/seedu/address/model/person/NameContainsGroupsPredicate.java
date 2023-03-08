@@ -1,32 +1,32 @@
 package seedu.address.model.person;
 
-import seedu.address.model.tag.Tag;
+import seedu.address.model.group.Group;
 
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Tests that a {@code Person}'s {@code Tag} matches any of the groups given.
+ * Tests that a {@code Person}'s {@code Group} matches any of the groups given.
  */
-public class TagContainsGroupsPredicate implements Predicate<Person> {
+public class NameContainsGroupsPredicate implements Predicate<Person> {
     private final List<String> groups;
 
-    public TagContainsGroupsPredicate(List<String> groups) {
+    public NameContainsGroupsPredicate(List<String> groups) {
         this.groups = groups;
     }
 
     @Override
     public boolean test(Person person) {
         return groups.stream()
-                .anyMatch(keyword -> person.getTags().contains(new Tag(keyword)));
+                .anyMatch(keyword -> person.getGroups().contains(new Group(keyword)));
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof TagContainsGroupsPredicate // instanceof handles nulls
-                && groups.equals(((TagContainsGroupsPredicate) other).groups)); // state check
+                || (other instanceof NameContainsGroupsPredicate // instanceof handles nulls
+                && groups.equals(((NameContainsGroupsPredicate) other).groups)); // state check
     }
 
     @Override

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import seedu.address.model.tag.Tag;
+import seedu.address.model.group.Group;
 
 /**
  * Represents a Person in the address book.
@@ -22,18 +22,18 @@ public class Person {
 
     // Data fields
     private final Address address;
-    private final Set<Tag> tags = new HashSet<>();
+    private final Set<Group> Groups = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Address address, PayRate payRate, Set<Tag> tags) {
-        requireAllNonNull(name, phone, payRate, address, tags);
+    public Person(Name name, Phone phone, Address address, PayRate payRate, Set<Group> Groups) {
+        requireAllNonNull(name, phone, payRate, address, Groups);
         this.name = name;
         this.phone = phone;
         this.address = address;
         this.payRate = payRate;
-        this.tags.addAll(tags);
+        this.Groups.addAll(Groups);
     }
 
     public Name getName() {
@@ -53,11 +53,11 @@ public class Person {
     }
 
     /**
-     * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
+     * Returns an immutable Group set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
      */
-    public Set<Tag> getTags() {
-        return Collections.unmodifiableSet(tags);
+    public Set<Group> getGroups() {
+        return Collections.unmodifiableSet(Groups);
     }
 
     /**
@@ -92,13 +92,13 @@ public class Person {
                 && otherPerson.getPhone().equals(getPhone())
                 && otherPerson.getPayRate().equals(getPayRate())
                 && otherPerson.getAddress().equals(getAddress())
-                && otherPerson.getTags().equals(getTags());
+                && otherPerson.getGroups().equals(getGroups());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, address, payRate, tags);
+        return Objects.hash(name, phone, address, payRate, Groups);
     }
 
     @Override
@@ -112,10 +112,10 @@ public class Person {
                 .append("; Pay Rate: ")
                 .append(getPayRate());
 
-        Set<Tag> tags = getTags();
-        if (!tags.isEmpty()) {
-            builder.append("; Tags: ");
-            tags.forEach(builder::append);
+        Set<Group> Groups = getGroups();
+        if (!Groups.isEmpty()) {
+            builder.append("; Groups: ");
+            Groups.forEach(builder::append);
         }
         return builder.toString();
     }

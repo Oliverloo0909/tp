@@ -3,8 +3,6 @@ package seedu.address.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -19,8 +17,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
-import seedu.address.model.person.NameContainsKeywordsPredicate;
-import seedu.address.model.person.TagContainsGroupsPredicate;
+import seedu.address.model.person.NameContainsGroupsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code ShowCommand}.
@@ -31,10 +28,10 @@ public class ShowCommandTest {
 
     @Test
     public void equals() {
-        TagContainsGroupsPredicate firstPredicate =
-                new TagContainsGroupsPredicate(Collections.singletonList("first"));
-        TagContainsGroupsPredicate secondPredicate =
-                new TagContainsGroupsPredicate(Collections.singletonList("second"));
+        NameContainsGroupsPredicate firstPredicate =
+                new NameContainsGroupsPredicate(Collections.singletonList("first"));
+        NameContainsGroupsPredicate secondPredicate =
+                new NameContainsGroupsPredicate(Collections.singletonList("second"));
 
         ShowCommand showFirstCommand = new ShowCommand(firstPredicate);
         ShowCommand showSecondCommand = new ShowCommand(secondPredicate);
@@ -59,7 +56,7 @@ public class ShowCommandTest {
     @Test
     public void execute_singleGroup_multiplePersonsFound() {
         String expectedMessage = String.format(ShowCommand.MESSAGE_SHOW_GROUP_SUCCESS, "friends");
-        TagContainsGroupsPredicate predicate = preparePredicate("friends");
+        NameContainsGroupsPredicate predicate = preparePredicate("friends");
         ShowCommand command = new ShowCommand(predicate);
         expectedModel.updateFilteredPersonList(predicate);
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
@@ -69,7 +66,7 @@ public class ShowCommandTest {
     /**
      * Parses {@code userInput} into a {@code NameContainsKeywordsPredicate}.
      */
-    private TagContainsGroupsPredicate preparePredicate(String userInput) {
-        return new TagContainsGroupsPredicate(Arrays.asList(userInput.split("\\s+")));
+    private NameContainsGroupsPredicate preparePredicate(String userInput) {
+        return new NameContainsGroupsPredicate(Arrays.asList(userInput.split("\\s+")));
     }
 }

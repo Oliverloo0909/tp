@@ -2,9 +2,8 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import seedu.address.commons.core.Messages;
 import seedu.address.model.Model;
-import seedu.address.model.person.TagContainsGroupsPredicate;
+import seedu.address.model.person.NameContainsGroupsPredicate;
 
 /**
  * Finds and lists all persons in address book whose name contains any of the argument keywords.
@@ -21,9 +20,9 @@ public class ShowCommand extends Command {
 
     public static final String MESSAGE_SHOW_GROUP_SUCCESS = "Listed all students that belong to the following groups specified: %1$s";
 
-    private final TagContainsGroupsPredicate predicate;
+    private final NameContainsGroupsPredicate predicate;
 
-    public ShowCommand(TagContainsGroupsPredicate predicate) {
+    public ShowCommand(NameContainsGroupsPredicate predicate) {
         this.predicate = predicate;
     }
 

@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import seedu.address.logic.commands.ShowCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.TagContainsGroupsPredicate;
+import seedu.address.model.person.NameContainsGroupsPredicate;
 
 /**
  * Parses input arguments and creates a new ShowCommand object
@@ -27,7 +27,7 @@ public class ShowCommandParser implements Parser<ShowCommand> {
 
         String[] nameKeywords = trimmedArgs.split("\\s+");
 
-        return new ShowCommand(new TagContainsGroupsPredicate(Arrays.asList(nameKeywords)));
+        return new ShowCommand(new NameContainsGroupsPredicate(Arrays.asList(nameKeywords)));
     }
 
 }
