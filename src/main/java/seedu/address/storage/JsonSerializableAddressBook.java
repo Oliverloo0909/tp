@@ -1,6 +1,6 @@
 package seedu.address.storage;
 
-import static seedu.address.logic.commands.GroupCommand.MESSAGE_DUPLICATE_TAG;
+import static seedu.address.logic.commands.GroupCommand.MESSAGE_DUPLICATE_GROUP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
-import seedu.address.model.tag.Tag;
 
 
 /**
@@ -27,15 +27,15 @@ class JsonSerializableAddressBook {
 
     private final List<JsonAdaptedPerson> persons = new ArrayList<>();
 
-    private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<JsonAdaptedGroup> groups = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonSerializableAddressBook} with the given persons.
      */
     @JsonCreator
-    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons) {
+    public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons, @JsonProperty("groups") List<JsonAdaptedGroup> groups) {
         this.persons.addAll(persons);
-        this.tags.addAll(tags);
+        this.groups.addAll(groups);
     }
 
     /**
@@ -45,7 +45,7 @@ class JsonSerializableAddressBook {
      */
     public JsonSerializableAddressBook(ReadOnlyAddressBook source) {
         persons.addAll(source.getPersonList().stream().map(JsonAdaptedPerson::new).collect(Collectors.toList()));
-        tags.addAll(source.getTagList().stream().map(JsonAdaptedTag::new).collect(Collectors.toList()));
+        groups.addAll(source.getGroupList().stream().map(JsonAdaptedGroup::new).collect(Collectors.toList()));
     }
 
     /**
@@ -63,13 +63,14 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
         }
 
-        for (JsonAdaptedTag jsonAdaptedTag : tags) {
-            Tag tag = jsonAdaptedTag.toModelType();
-            if (addressBook.hasTag(tag)) {
-                throw new IllegalValueException(MESSAGE_DUPLICATE_TAG);
+        for (JsonAdaptedGroup jsonAdaptedGroup : groups) {
+            Group group = jsonAdaptedGroup.toModelType();
+            if (addressBook.hasGroup(group)) {
+                throw new IllegalValueException(MESSAGE_DUPLICATE_GROUP);
             }
-            addressBook.addTag(tag);
+            addressBook.addGroup(group);
         }
+
         return addressBook;
     }
 }

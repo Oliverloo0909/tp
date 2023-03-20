@@ -8,9 +8,7 @@ import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -24,17 +22,18 @@ import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
-import seedu.address.logic.commands.GroupAddCommand;
 import seedu.address.logic.commands.GroupCommand;
+import seedu.address.logic.commands.GroupModifyCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ShowCommand;
 import seedu.address.logic.commands.SortCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.Name;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.TagContainsGroupsPredicate;
-import seedu.address.model.tag.Tag;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
@@ -56,9 +55,9 @@ public class AddressBookParserTest {
 
     @Test
     public void parseCommand_group() throws Exception {
-        Tag tag = new Tag("Hall");
+        Group grp = new Group(new Name("Hall"));
         GroupCommand command = (GroupCommand) parser.parseCommand("group n/Hall");
-        assertEquals(new GroupCommand(tag), command);
+        assertEquals(new GroupCommand(grp), command);
     }
 
     @Test
@@ -92,11 +91,10 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_groupadd() throws Exception {
         Index targetIndex = INDEX_FIRST_PERSON;
-        String input = targetIndex.getOneBased() + " t/Hall";
-        Set<Tag> expectedTagList = new HashSet<>();
-        expectedTagList.add(new Tag("Hall"));
-        GroupAddCommand command = (GroupAddCommand) parser.parseCommand(GroupAddCommand.COMMAND_WORD + " " + input);
-        assertEquals(new GroupAddCommand(targetIndex, expectedTagList), command);
+        String input = targetIndex.getOneBased() + " g/Hall" + " m/add";
+        Group expectedGroup = new Group(new Name("Hall"));
+        GroupModifyCommand command = (GroupModifyCommand) parser.parseCommand(GroupModifyCommand.COMMAND_WORD + " " + input);
+        assertEquals(new GroupModifyCommand(targetIndex, expectedGroup), command);
     }
 
     @Test

@@ -20,6 +20,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
@@ -130,6 +131,21 @@ public class AddCommandTest {
         }
 
         @Override
+        public void deleteGroup(Group target) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public void addGroup(Group target) {
+
+        }
+
+        @Override
+        public void addPersonToGroup(Person person, Group target) {
+
+        }
+
+        @Override
         public void deletePerson(Person target) {
             throw new AssertionError("This method should not be called.");
         }
@@ -166,6 +182,21 @@ public class AddCommandTest {
 
         @Override
         public void updateFilteredTagList(Predicate<Tag> predicate) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
+        public boolean hasGroup(Group toAdd) {
+            return false;
+        }
+
+        @Override
+        public void updateFilteredGroupList(Predicate<Group> predicate) {
+
+        }
+
+        @Override
+        public void removePersonFromGroup(Person personToGroupMod, Group groupToMod) {
             throw new AssertionError("This method should not be called.");
         }
     }

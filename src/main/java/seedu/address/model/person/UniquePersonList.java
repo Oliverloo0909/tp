@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
+import seedu.address.model.person.exceptions.InvalidIndexException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
 /**
@@ -50,6 +51,23 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Gets a person from the list via index
+     */
+    public Person get(int index) throws InvalidIndexException {
+        if (index > internalList.size() - 1 || index < 0) {
+            throw new InvalidIndexException();
+        }
+        return internalList.get(index);
+    }
+
+    /**
+     * gets number of person in group
+     */
+    public int size() {
+        return internalList.size();
+    }
+
+    /**
      * Replaces the person {@code target} in the list with {@code editedPerson}.
      * {@code target} must exist in the list.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the list.
@@ -75,6 +93,7 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public void remove(Person toRemove) {
         requireNonNull(toRemove);
+
         if (!internalList.remove(toRemove)) {
             throw new PersonNotFoundException();
         }

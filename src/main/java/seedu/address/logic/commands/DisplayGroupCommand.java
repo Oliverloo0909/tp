@@ -1,7 +1,7 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TAGS;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_GROUPS;
 
 import seedu.address.model.Model;
 
@@ -22,8 +22,8 @@ public class DisplayGroupCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredTagList(PREDICATE_SHOW_ALL_TAGS);
-        String results = model.getAddressBook().getTagList().toString();
+        model.updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
+        String results = model.getAddressBook().getGroupList().toString();
         return new CommandResult(MESSAGE_TEMPORARY_OUTPUT + results);
     }
 

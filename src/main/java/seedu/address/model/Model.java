@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -15,6 +16,7 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
     Predicate<Tag> PREDICATE_SHOW_ALL_TAGS = unused -> true;
+    Predicate<Group> PREDICATE_SHOW_ALL_GROUPS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -59,6 +61,12 @@ public interface Model {
      */
     boolean hasPerson(Person person);
 
+    void deleteGroup(Group target) ;
+
+    void addGroup(Group target) ;
+
+    void addPersonToGroup(Person person, Group target) ;
+
     /**
      * Deletes the given person.
      * The person must exist in the address book.
@@ -101,4 +109,10 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredTagList(Predicate<Tag> predicate);
+
+    boolean hasGroup(Group toAdd);
+
+    void updateFilteredGroupList(Predicate<Group> predicate);
+
+    void removePersonFromGroup(Person personToGroupMod, Group groupToMod);
 }

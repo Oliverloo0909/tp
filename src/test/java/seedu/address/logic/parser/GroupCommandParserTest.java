@@ -7,21 +7,23 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.GroupCommand;
+import seedu.address.model.Name;
+import seedu.address.model.group.Group;
 import seedu.address.model.tag.Tag;
 
 public class GroupCommandParserTest {
     private GroupCommandParser parser = new GroupCommandParser();
     private String groupHall = "Hall";
     private String groupVar = "Varsity";
-    private Tag tagHall = new Tag(groupHall);
+    private Group hall = new Group(new Name(groupHall));
 
     @Test
     public void parseNameFieldPresent_success() {
         //whitespace only preamble
-        assertParseSuccess(parser, " n/hall", new GroupCommand(tagHall));
+        assertParseSuccess(parser, " n/hall", new GroupCommand(hall));
 
         //multiple names - last name accepted
-        assertParseSuccess(parser, " n/Varsity n/hall", new GroupCommand(tagHall));
+        assertParseSuccess(parser, " n/Varsity n/hall", new GroupCommand(hall));
     }
 
     @Test

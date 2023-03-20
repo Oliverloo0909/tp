@@ -7,6 +7,8 @@ import static seedu.address.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.model.Name;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
@@ -15,6 +17,9 @@ import seedu.address.testutil.PersonBuilder;
 
 public class GroupCommandTest {
 
+    private Group hallGroup = new Group(new Name("Hall"));
+    private Group varsityGroup = new Group(new Name("Varsity"));
+
     @Test
     public void constructorNullTagthrowsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new GroupCommand(null));
@@ -22,22 +27,21 @@ public class GroupCommandTest {
 
     @Test
     public void executeNullModelThrowsNullPointerException() {
-        Tag tag = new Tag("hi");
-        assertThrows(NullPointerException.class, () -> new GroupCommand(tag).execute(null));
+        assertThrows(NullPointerException.class, () -> new GroupCommand(hallGroup).execute(null));
     }
 
     @Test
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
         Person bob = new PersonBuilder().withName("Bob").build();
-        GroupCommand groupHallCommand = new GroupCommand(new Tag("hall"));
-        GroupCommand groupVarsityCommand = new GroupCommand(new Tag("Varsity"));
+        GroupCommand groupHallCommand = new GroupCommand(hallGroup);
+        GroupCommand groupVarsityCommand = new GroupCommand(varsityGroup);
 
         // same object -> returns true
         assertTrue(groupHallCommand.equals(groupHallCommand));
 
         // same values -> returns true
-        GroupCommand groupHallCommandCopy = new GroupCommand(new Tag("hall"));
+        GroupCommand groupHallCommandCopy = new GroupCommand(hallGroup);
         assertTrue(groupHallCommand.equals(groupHallCommandCopy));
 
         // different types -> returns false

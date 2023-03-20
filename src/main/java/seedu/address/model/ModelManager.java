@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -24,6 +25,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Tag> filteredTags;
+    private final FilteredList<Group> filteredGroups;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -37,6 +39,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTags = new FilteredList<>(this.addressBook.getTagList());
+        filteredGroups = new FilteredList<>(this.addressBook.getGroupList());
     }
 
     public ModelManager() {
@@ -109,6 +112,32 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasGroup(Group group) {
+        requireNonNull(group);
+        return addressBook.hasGroup(group);
+    }
+
+    @Override
+    public void deleteGroup(Group target) {
+        addressBook.removeGroup(target);
+    }
+
+    @Override
+    public void addGroup(Group target) {
+        addressBook.addGroup(target);
+    }
+
+    @Override
+    public void addPersonToGroup(Person person, Group target) {
+        addressBook.addPersonToGroup(person, target);
+    }
+
+    @Override
+    public void removePersonFromGroup(Person personToGroupMod, Group groupToMod) {
+        addressBook.removePersonFromGroup(personToGroupMod, groupToMod);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
     }
@@ -154,6 +183,14 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredTags.setPredicate(predicate);
     }
+
+    @Override
+    public void updateFilteredGroupList(Predicate<Group> predicate) {
+        requireNonNull(predicate);
+        filteredGroups.setPredicate(predicate);
+    }
+
+
 
     @Override
     public boolean equals(Object obj) {

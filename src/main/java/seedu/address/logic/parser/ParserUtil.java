@@ -9,8 +9,9 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Address; // create a new import group for Address
-import seedu.address.model.person.Name;
+import seedu.address.model.Name;
 import seedu.address.model.person.PayRate;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Session;
@@ -36,6 +37,14 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
+    public static boolean parseIsAdd(String isAdd) throws ParseException {
+        String trimmedIsAdd = isAdd.trim();
+        if (!trimmedIsAdd.equalsIgnoreCase("add") && !trimmedIsAdd.equalsIgnoreCase("remove")) {
+            throw new ParseException("input either m/add or m/remove");
+        }
+        return trimmedIsAdd.equalsIgnoreCase("add");
+    }
+
     /**
      * Parses a {@code String name} into a {@code Name}.
      * Leading and trailing whitespaces will be trimmed.
@@ -49,6 +58,21 @@ public class ParserUtil {
             throw new ParseException(Name.MESSAGE_CONSTRAINTS);
         }
         return new Name(trimmedName);
+    }
+
+    /**
+     * Parses a {@code String group} into a {@code group}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code group} is invalid.
+     */
+    public static Group parseGroup(String group) throws ParseException {
+        requireNonNull(group);
+        String trimmedGroup = group.trim();
+        if (!Name.isValidName(trimmedGroup)) {
+            throw new ParseException(Name.MESSAGE_CONSTRAINTS);
+        }
+        return new Group(new Name(trimmedGroup));
     }
 
     /**

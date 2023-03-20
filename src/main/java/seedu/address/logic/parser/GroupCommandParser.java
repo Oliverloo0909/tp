@@ -7,7 +7,8 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.GroupCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.person.Name;
+import seedu.address.model.Name;
+import seedu.address.model.group.Group;
 import seedu.address.model.tag.Tag;
 
 
@@ -32,9 +33,9 @@ public class GroupCommandParser implements Parser<GroupCommand> {
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
 
-        Tag tag = new Tag(name.toString());
+        Group group = new Group(name);
 
-        return new GroupCommand(tag);
+        return new GroupCommand(group);
     }
 
     /**
