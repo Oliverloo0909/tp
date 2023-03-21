@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.group.exceptions.PersonNotFoundInGroupException;
 import seedu.address.model.group.exceptions.DuplicateGroupException;
 import seedu.address.model.group.exceptions.GroupNotFoundException;
@@ -233,21 +234,12 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @param group
      */
     public void removeGroup(Group group) {
-        groups.remove(group);
-
-        for (int i = 0; i < group.size(); i++) {
-            Person toEdit = group.get(i);
-            Set<Tag> tagListToEdit = toEdit.getTags();
-            tagListToEdit.remove(new Tag(group.getName().toString()));
-            Person modifiedPerson = new Person(
-                    toEdit.getName(),
-                    toEdit.getPhone(),
-                    toEdit.getAddress(),
-                    toEdit.getPayRate(),
-                    toEdit.getSession(),
-                    tagListToEdit);
-            persons.setPerson(toEdit, modifiedPerson);
+        Group groupToRemove = getGroup(group);
+        for (int i = 0; i < groupToRemove.size(); i++) {
+            Person toRemove = groupToRemove.get(i);
+            removePersonFromGroup(toRemove, groupToRemove);
         }
+        groups.remove(groupToRemove);
     }
 
     //// util methods

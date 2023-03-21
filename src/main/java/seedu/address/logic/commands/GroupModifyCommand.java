@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GROUP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MOD;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.List;
@@ -25,9 +26,9 @@ public class GroupModifyCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add or delete a person of index i to/from a group specified. "
             + "Parameters: INDEX (must be a positive integer) "
-            + "" + PREFIX_GROUP + "GROUP...\n"
+            + "" + PREFIX_GROUP + "GROUP " + PREFIX_MOD + "(ADD/REMOVE)\n"
             + "Example: " + COMMAND_WORD + " 1 "
-            + PREFIX_GROUP + "varsity";
+            + PREFIX_GROUP + "varsity " + PREFIX_MOD + "add";
     public static final String GROUP_ADD_PERSON_SUCCESS = "Added Person: %1$s to Group: %2$s";
     public static final String GROUP_REMOVE_PERSON_SUCCESS = "Removed Person: %1$s from Group: %2$s";
     public static final String GROUP_NOT_FOUND_FAILURE = "The group: %1$s cannot be found. "

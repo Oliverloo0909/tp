@@ -1,6 +1,5 @@
 package seedu.address.model.group;
 
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import seedu.address.model.Name;
 import seedu.address.model.person.Person;
@@ -14,17 +13,19 @@ import java.util.ArrayList;
 public class Group {
 
     private Name name;
-    private UniquePersonList group = new UniquePersonList();
+    private UniquePersonList group;
 
     public Group(Name name) {
         this.name = name;
+        this.group = new UniquePersonList();
     }
 
     public Group(Name name, ArrayList<Person> persons) {
+        this.name = name;
+        this.group = new UniquePersonList();
         for(Person person: persons) {
             group.add(person);
         }
-        this.name = name;
     }
 
     /**

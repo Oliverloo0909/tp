@@ -1,11 +1,14 @@
 package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_GROUP;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_MOD;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.GroupCommand;
+import seedu.address.logic.commands.GroupModifyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Name;
 import seedu.address.model.group.Group;
@@ -24,18 +27,16 @@ public class GroupCommandParser implements Parser<GroupCommand> {
      */
     public GroupCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME);
+                ArgumentTokenizer.tokenize(args, PREFIX_GROUP, PREFIX_MOD);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
+        if (!arePrefixesPresent(argMultimap, PREFIX_GROUP, PREFIX_MOD)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, GroupCommand.MESSAGE_USAGE));
         }
 
-        Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-
-        Group group = new Group(name);
-
-        return new GroupCommand(group);
+        Group group = ParserUtil.parseGroup(argMultimap.getValue(PREFIX_GROUP).get());
+        boolean isAdd = ParserUtil.parseIsAdd(argMultimap.getValue(PREFIX_MOD).get());
+        return new GroupCommand(group, isAdd);
     }
 
     /**
@@ -45,5 +46,4 @@ public class GroupCommandParser implements Parser<GroupCommand> {
     private static boolean arePrefixesPresent(ArgumentMultimap argumentMultimap, Prefix... prefixes) {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
-
 }
