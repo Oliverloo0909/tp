@@ -5,8 +5,8 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.group.Group;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -62,11 +62,11 @@ public interface Model {
      */
     boolean hasPerson(Person person);
 
-    void deleteGroup(Group target) ;
+    void deleteGroup(Group target);
 
-    void addGroup(Group target) ;
+    void addGroup(Group target);
 
-    void addPersonToGroup(Person person, Group target) ;
+    void addPersonToGroup(Person person, Group target);
 
     /**
      * Deletes the given person.

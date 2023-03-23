@@ -1,28 +1,30 @@
 package seedu.address.model.group;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+import java.util.Iterator;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.group.exceptions.DuplicateGroupException;
 import seedu.address.model.group.exceptions.GroupNotFoundException;
 
-import java.util.Iterator;
-import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
+
+
 
 /**
  * A list of groups that enforces uniqueness between its name and does not allow nulls.
  * A group is considered unique by comparing using {@code Group#equals(Group)}.
- *
  * Supports a minimal set of list operations.
- *
  */
-public class UniqueGroupList implements Iterable<Group>{
+public class UniqueGroupList implements Iterable<Group> {
+
     /**
      * Returns true if the list contains an equivalent person as the given argument.
      */
-
     private final ObservableList<Group> internalList = FXCollections.observableArrayList();
     private final ObservableList<Group> internalUnmodifiableList =
                 FXCollections.unmodifiableObservableList(internalList);
@@ -31,8 +33,8 @@ public class UniqueGroupList implements Iterable<Group>{
      * Returns true if the list contains an equivalent group as the given argument.
      */
     public boolean contains(Group toCheck) {
-            requireNonNull(toCheck);
-            return internalList.stream().anyMatch(toCheck::equals);
+        requireNonNull(toCheck);
+        return internalList.stream().anyMatch(toCheck::equals);
         }
 
     public ObservableList<Group> asUnmodifiableObservableList() {

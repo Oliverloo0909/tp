@@ -7,16 +7,17 @@ import java.util.List;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.group.exceptions.PersonNotFoundInGroupException;
-import seedu.address.model.group.exceptions.DuplicateGroupException;
-import seedu.address.model.group.exceptions.GroupNotFoundException;
 import seedu.address.model.group.Group;
 import seedu.address.model.group.UniqueGroupList;
+import seedu.address.model.group.exceptions.DuplicateGroupException;
+import seedu.address.model.group.exceptions.GroupNotFoundException;
+import seedu.address.model.group.exceptions.PersonNotFoundInGroupException;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
+
 
 /**
  * Wraps all data at the address-book level
@@ -198,6 +199,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         return groups.get(target).copy();
     }
 
+    /**
+     * adds a person to a group
+     * @param person
+     * @param group
+     */
     public void addPersonToGroup(Person person, Group group) {
         if (!groups.contains(group)) {
             throw new GroupNotFoundException();
@@ -223,6 +229,11 @@ public class AddressBook implements ReadOnlyAddressBook {
         editedGroup.add(modifiedPerson);
     }
 
+    /**
+     * removes a person from a group
+     * @param person
+     * @param group
+     */
     public void removePersonFromGroup(Person person, Group group) {
         if (!groups.contains(group)) {
             throw new GroupNotFoundException();

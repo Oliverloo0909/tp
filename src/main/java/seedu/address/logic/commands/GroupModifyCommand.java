@@ -13,7 +13,6 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.group.Group;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 
 
@@ -24,7 +23,8 @@ public class GroupModifyCommand extends Command {
 
     public static final String COMMAND_WORD = "groupmod";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Add or delete a person of index i to/from a group specified. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD +
+            ": Add or delete a person of index i to/from a group specified. "
             + "Parameters: INDEX (must be a positive integer) "
             + "" + PREFIX_GROUP + "GROUP " + PREFIX_MOD + "(ADD/REMOVE)\n"
             + "Example: " + COMMAND_WORD + " 1 "
@@ -50,7 +50,11 @@ public class GroupModifyCommand extends Command {
         this.isAdd = isAdd;
     }
 
-    //add by default
+    /**
+     * command constructor
+     * @param index
+     * @param groupToMod
+     */
     public GroupModifyCommand(Index index, Group groupToMod) {
         this.index = index;
         this.groupToMod = groupToMod;

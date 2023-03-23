@@ -9,9 +9,9 @@ import java.util.Set;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.group.Group;
-import seedu.address.model.person.Address; // create a new import group for Address
 import seedu.address.model.Name;
+import seedu.address.model.group.Group;
+import seedu.address.model.person.Address;
 import seedu.address.model.person.PayRate;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Session;
@@ -37,6 +37,12 @@ public class ParserUtil {
         return Index.fromOneBased(Integer.parseInt(trimmedIndex));
     }
 
+    /**
+     * Parses the modify field to a boolean
+     * @param isAdd
+     * @return
+     * @throws ParseException
+     */
     public static boolean parseIsAdd(String isAdd) throws ParseException {
         String trimmedIsAdd = isAdd.trim();
         if (!trimmedIsAdd.equalsIgnoreCase("add") && !trimmedIsAdd.equalsIgnoreCase("remove")) {

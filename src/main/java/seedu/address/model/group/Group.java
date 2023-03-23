@@ -1,14 +1,14 @@
 package seedu.address.model.group;
 
+import java.util.ArrayList;
+
 import javafx.collections.ObservableList;
 import seedu.address.model.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.UniquePersonList;
 
-import java.util.ArrayList;
-
 /**
- * Group list that contains a group of people (people in group are unique)
+ * Group list that contains a group of people (people in group are unique).
  */
 public class Group {
 
@@ -23,40 +23,34 @@ public class Group {
     public Group(Name name, ArrayList<Person> persons) {
         this.name = name;
         this.group = new UniquePersonList();
-        for(Person person: persons) {
+        for (Person person : persons) {
             group.add(person);
         }
     }
 
     public Group(Name name, UniquePersonList persons) {
         this.name = name;
-        this.group = new UniquePersonList();
-        for(int i = 0; i < persons.size(); i++) {
-            group.add(persons.get(i));
-        }
+        this.group = persons;
     }
 
     /**
      * Adds a person to the group.
-     * The group must not already exist in the list.
+     * The person must not already exist in the group.
      */
     public void add(Person toAdd) {
-        //add to unique person list
         group.add(toAdd);
     }
 
     /**
-     * Gets name of group
-     * @return
+     * Gets the name of the group.
      */
     public Name getName() {
         return this.name;
     }
 
     /**
-     * Removes the equivalent person the group.
+     * Removes the specified person from the group.
      * The person must exist in the group.
-     * @param toRemove
      */
     public void remove(Person toRemove) {
         group.remove(toRemove);
@@ -68,50 +62,41 @@ public class Group {
     }
 
     /**
-     * returns person at specified index.
-     * @return
+     * Returns the person at the specified index.
      */
     public Person get(int index) {
         return group.get(index);
     }
 
     /**
-     * returns number of people in group
-     * @return
+     * Returns the number of people in the group.
      */
     public int size() {
-        if(group == null) {
-            return 0;
-        }
         return group.size();
     }
 
     @Override
     public boolean equals(Object other) {
-
         if (other == this) {
-            return true; //short circuit if same object
+            return true;
         }
 
-
-        if (!(other instanceof Group
-                && name.equals(((Group) other).getName()))) {
+        if (!(other instanceof Group)) {
             return false;
         }
 
-        if (other == null || !(other instanceof Group) ||
-                (other instanceof Group
-                        && (size() != ((Group) other).size() ||
-                        !name.equals(((Group)other).name)))
-                ) {
+        Group otherGroup = (Group) other;
+
+        if (!this.name.equals(otherGroup.getName())) {
             return false;
         }
 
+        if (this.size() != otherGroup.size()) {
+            return false;
+        }
 
-        for (int i = 0; i < size(); i++) {
-            System.out.println(this.get(i));
-            System.out.println(((Group) other).get(i));
-            if (!this.get(i).equals(((Group) other).get(i))) {
+        for (int i = 0; i < this.size(); i++) {
+            if (!this.get(i).equals(otherGroup.get(i))) {
                 return false;
             }
         }
@@ -119,10 +104,16 @@ public class Group {
         return true;
     }
 
+    /**
+     * Returns an unmodifiable view of the group's person list.
+     */
     public ObservableList<Person> getPersons() {
         return group.asUnmodifiableObservableList();
     }
 
+    /**
+     * Creates and returns a copy of this group.
+     */
     public Group copy() {
         return new Group(this.name, this.group);
     }
