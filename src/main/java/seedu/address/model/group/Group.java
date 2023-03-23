@@ -15,11 +15,20 @@ public class Group {
     private Name name;
     private UniquePersonList group;
 
+    /**
+     * group constructor
+     * @param name
+     */
     public Group(Name name) {
         this.name = name;
         this.group = new UniquePersonList();
     }
 
+    /**
+     * group constructor
+     * @param name
+     * @param persons
+     */
     public Group(Name name, ArrayList<Person> persons) {
         this.name = name;
         this.group = new UniquePersonList();
@@ -28,6 +37,11 @@ public class Group {
         }
     }
 
+    /**
+     * group constructor
+     * @param name
+     * @param persons
+     */
     public Group(Name name, UniquePersonList persons) {
         this.name = name;
         this.group = persons;
