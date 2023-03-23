@@ -13,6 +13,7 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -47,6 +48,7 @@ public class GroupModifyCommandTest {
     private Name varsity = new Name("Varsity");
     private Group hallGroup = new Group(hall);
     private Group diffGroup = new Group(varsity);
+    private String groupInput = "Hall";
 
     @Test
     public void execute_invalidIndex_failure() throws ParseException, CommandException {
@@ -87,7 +89,7 @@ public class GroupModifyCommandTest {
                 .getTagList().toString();
         assertCommandFailure(GroupModifyCommand, model,
                 String.format(GroupModifyCommand.GROUP_NOT_FOUND_FAILURE,
-                        "[friends]", results));
+                        groupInput, results));
     }
 
     @Test
@@ -100,38 +102,37 @@ public class GroupModifyCommandTest {
                 .build());
         assertCommandFailure(GroupModifyCommand, model,
                 String.format(GroupModifyCommand.STUDENT_ALREADY_ADDED_FAILURE,
-                        "[friends]"));
+                        groupInput));
     }
 
     @Test
-    public void execute_GroupModifyCommand_success() throws CommandException {
-        List<Tag> tagListTest = Arrays.asList(new Tag("private"));
+    public void execute_GroupModify_Add_Command_success() throws CommandException {
 
-        GroupModifyCommand GroupModifyCommand = new GroupModifyCommand(INDEX_FIRST_PERSON, hallGroup);
+        Group hallGroupWithAlice = new Group(hall, new ArrayList<>(Arrays.asList(ALICE)));
 
-        Set<Tag> groupsToAdd = new HashSet<>(tagListTest);
+        GroupModifyCommand GroupModifyCommand = new GroupModifyCommand(INDEX_FIRST_PERSON, hallGroup, true);
+
         CommandResult commandResult = new CommandResult(String.format(GroupModifyCommand.GROUP_ADD_PERSON_SUCCESS,
-                ALICE.getName(), groupsToAdd));
+                ALICE.getName(), hallGroup));
 
         //expectedModel
-        Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model expectedModel = new ModelManager(new AddressBook(), new UserPrefs());
+        expectedModel.addGroup(hallGroupWithAlice);
         Person expectedPerson = new PersonBuilder().withName("Alice Pauline")
                 .withAddress("123, Jurong West Ave 6, #08-111").withPayRate("10")
                 .withPhone("94351253").withSession("01-01-2022 12:00", "01-01-2022 13:00")
-                .withTags("private", "friends")
+                .withTags("private", "friends", "hall")
                 .build();
-        expectedModel.setAddressBook(new AddressBookBuilder().withPerson(expectedPerson)
-                .withTag(new Tag("friends")).withTag(new Tag("private"))
-                .build());
+        expectedModel.addPerson(expectedPerson);
 
 
         //create a test model
-        model.setAddressBook(new AddressBookBuilder().withPerson(ALICE)
-                .withTag(new Tag("friends")).withTag(new Tag("private"))
+        Model actualModel = new ModelManager(new AddressBook(), new UserPrefs());
+        actualModel.setAddressBook(new AddressBookBuilder().withPerson(ALICE).withGroup(hallGroup)
                 .build());
 
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        //model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        //expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
 
         assertCommandSuccess(GroupModifyCommand, model, commandResult, expectedModel);
     }

@@ -56,7 +56,7 @@ public class AddressBookParserTest {
     @Test
     public void parseCommand_group() throws Exception {
         Group grp = new Group(new Name("Hall"));
-        GroupCommand command = (GroupCommand) parser.parseCommand("group n/Hall");
+        GroupCommand command = (GroupCommand) parser.parseCommand("group g/Hall m/add");
         assertEquals(new GroupCommand(grp), command);
     }
 

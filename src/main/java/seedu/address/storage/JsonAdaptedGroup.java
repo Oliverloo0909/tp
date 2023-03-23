@@ -68,5 +68,4 @@ public class JsonAdaptedGroup {
 
         return new Group(modelName, group);
     }
-
 }

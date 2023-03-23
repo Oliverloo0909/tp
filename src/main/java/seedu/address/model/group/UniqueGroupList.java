@@ -4,9 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.group.exceptions.DuplicateGroupException;
 import seedu.address.model.group.exceptions.GroupNotFoundException;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
 
 import java.util.Iterator;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
@@ -46,7 +46,7 @@ public class UniqueGroupList implements Iterable<Group>{
     public void add(Group toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicatePersonException();
+            throw new DuplicateGroupException();
         }
         internalList.add(toAdd);
     }
@@ -72,7 +72,7 @@ public class UniqueGroupList implements Iterable<Group>{
         if (index == -1) {
             throw new GroupNotFoundException();
         }
-        return internalList.get(index);
+        return internalList.get(index).copy();
     }
 
 
@@ -103,4 +103,33 @@ public class UniqueGroupList implements Iterable<Group>{
     }
 
 
+    public void setGroups(List<Group> groups) {
+        requireAllNonNull(groups);
+        if (!groupsAreUnique(groups)) {
+            throw new DuplicateGroupException();
+        }
+
+        internalList.setAll(groups);
+    }
+
+    /**
+     * Returns true if {@code groups} contains only unique groups.
+     */
+    private boolean groupsAreUnique(List<Group> groups) {
+        for (int i = 0; i < groups.size() - 1; i++) {
+            for (int j = i + 1; j < groups.size(); j++) {
+                if (groups.get(i).equals(groups.get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof UniqueGroupList // instanceof handles nulls
+                && internalList.equals(((UniqueGroupList) other).internalList));
+    }
 }

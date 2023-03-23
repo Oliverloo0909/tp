@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.group.exceptions.PersonNotFoundInGroupException;
 import seedu.address.model.group.exceptions.DuplicateGroupException;
 import seedu.address.model.group.exceptions.GroupNotFoundException;
@@ -62,6 +61,10 @@ public class AddressBook implements ReadOnlyAddressBook {
         this.persons.setPersons(persons);
     }
 
+    public void setGroups(List<Group> groups) {
+        this.groups.setGroups(groups);
+    }
+
     public void setTags(List<Tag> tags) {
         this.tags.setTags(tags);
     }
@@ -74,6 +77,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         setPersons(newData.getPersonList());
         setTags(newData.getTagList());
+        setGroups(newData.getGroupList());
     }
 
     //// person-level operations
@@ -172,7 +176,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @param target
      */
     public Group getGroup(Group target) {
-        return groups.get(target);
+        return groups.get(target).copy();
     }
 
     public void addPersonToGroup(Person person, Group group) {

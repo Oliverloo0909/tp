@@ -28,9 +28,12 @@ import seedu.address.testutil.PersonBuilder;
 
 public class AddressBookTest {
 
+    private final Name hall = new Name("Hall");
     private final AddressBook addressBook = new AddressBook();
-    private final Tag test = new Tag("bob");
-    private final Set<Tag> testList = new HashSet<>(Arrays.asList(test, new Tag("ben")));
+    private final Tag testTag = new Tag("bob");
+    private final Group testGroup = new Group(hall);
+
+    private final Set<Tag> testList = new HashSet<>(Arrays.asList(testTag, new Tag("ben")));
 
     @Test
     public void constructor() {
@@ -52,7 +55,7 @@ public class AddressBookTest {
     @Test
     public void addTagTest() {
         AddressBook addressBookTest = new AddressBook();
-        addressBookTest.addTag(test);
+        addressBookTest.addTag(testTag);
         assertFalse(addressBook.equals(addressBookTest));
     }
 
@@ -60,6 +63,13 @@ public class AddressBookTest {
     public void addAllTagTest() {
         AddressBook addressBookTest = new AddressBook();
         addressBookTest.addAllTags(testList);
+        assertFalse(addressBook.equals(addressBookTest));
+    }
+
+    @Test
+    public void addGroupTest() {
+        AddressBook addressBookTest = new AddressBook();
+        addressBookTest.addGroup(testGroup);
         assertFalse(addressBook.equals(addressBookTest));
     }
 
@@ -86,8 +96,8 @@ public class AddressBookTest {
 
     @Test
     public void hasTag_tagInAddressBook_returnsTrue() {
-        addressBook.addTag(test);
-        assertTrue(addressBook.hasTag(test));
+        addressBook.addTag(testTag);
+        assertTrue(addressBook.hasTag(testTag));
     }
 
     @Test

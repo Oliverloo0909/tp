@@ -74,5 +74,4 @@ public class GroupCommand extends Command {
                 && group.equals(((GroupCommand) other).group)
                 && isAdd == ((GroupCommand) other).isAdd);
     }
-
 }

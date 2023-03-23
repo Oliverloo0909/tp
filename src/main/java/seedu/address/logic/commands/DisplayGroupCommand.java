@@ -22,7 +22,7 @@ public class DisplayGroupCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
-        model.updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
+        //model.updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
         String results = model.getAddressBook().getGroupList().toString();
         return new CommandResult(MESSAGE_TEMPORARY_OUTPUT + results);
     }
