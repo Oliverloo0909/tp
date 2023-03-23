@@ -40,7 +40,7 @@ public class ParserUtil {
     /**
      * Parses the modify field to a boolean
      * @param isAdd
-     * @return
+     * @return boolean
      * @throws ParseException if input isnt m/add or m/remove.
      */
     public static boolean parseIsAdd(String isAdd) throws ParseException {
