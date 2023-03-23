@@ -41,7 +41,7 @@ public class ParserUtil {
      * Parses the modify field to a boolean
      * @param isAdd
      * @return
-     * @throws ParseException
+     * @throws ParseException if input isnt m/add or m/remove
      */
     public static boolean parseIsAdd(String isAdd) throws ParseException {
         String trimmedIsAdd = isAdd.trim();

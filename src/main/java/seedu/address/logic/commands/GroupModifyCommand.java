@@ -23,8 +23,8 @@ public class GroupModifyCommand extends Command {
 
     public static final String COMMAND_WORD = "groupmod";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD +
-            ": Add or delete a person of index i to/from a group specified. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Add or delete a person of index i to/from a group specified. "
             + "Parameters: INDEX (must be a positive integer) "
             + "" + PREFIX_GROUP + "GROUP " + PREFIX_MOD + "(ADD/REMOVE)\n"
             + "Example: " + COMMAND_WORD + " 1 "
