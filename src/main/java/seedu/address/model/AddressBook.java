@@ -51,6 +51,15 @@ public class AddressBook implements ReadOnlyAddressBook {
         resetData(toBeCopied);
     }
 
+    /**
+     * Alternate AddressBook constructor
+     */
+    public AddressBook(AddressBook toBeCloned) {
+        this();
+        setPersons(toBeCloned.getPersonList());
+        setTags(toBeCloned.getTagList());
+    }
+
     //// list overwrite operations
 
     /**
@@ -78,6 +87,16 @@ public class AddressBook implements ReadOnlyAddressBook {
         setPersons(newData.getPersonList());
         setTags(newData.getTagList());
         setGroups(newData.getGroupList());
+    }
+
+    /**
+     * Alternate resetData implementation.
+     */
+    public void resetData(AddressBook newData) {
+        requireNonNull(newData);
+
+        setPersons(newData.getPersonList());
+        setTags(newData.getTagList());
     }
 
     //// person-level operations
