@@ -128,7 +128,7 @@ The `Model` component,
 
 <div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `AddressBook`, which `student` references. This allows `AddressBook` to only require one `Tag` object per unique tag, instead of each `student` needing their own `Tag` objects.<br>
 
-<img src="images/BetterModelClassDiagram.png" width="450" />
+<img src="images/ModelClassDiagram3.png" width="450" />
 
 </div>
 
@@ -153,6 +153,32 @@ Classes used by multiple components are in the `seedu.AddressBook.commons` packa
 ## **Implementation**
 
 This section describes some noteworthy details on how certain features are implemented.
+
+### Sort feature
+
+#### Proposed Implementation
+
+The proposed sort mechanism is facilitated by `UniquePersonList`.
+
+Step 1. The Coach launches the application for the first time. The list of students will be initialised.
+
+Step 2. The Coach keys in details of some students with the `add` method.
+
+Step 3. After adding his students, the Coach wants to view the upcoming coaching sessions in chronological order, so he wants to sort them by training session date in ascending order.
+
+Step 4. The Coach then decides to execute the command `sort 2 0`.
+
+#### Design considerations:
+
+Restricting attribute and order to an integer value allows us to more easily anticipate and control input.
+
+* **Alternative 1 (current choice):** Allows users to specify what and how to sort their list.
+    * Pros: More flexible and customisable to user needs.
+    * Cons: More troublesome as user needs to check user guide to learn what integers to use.
+
+* **Alternative 2:** User types `sort` and it sorts based on a pre-determined attribute and order.
+    * Pros: Easy for user to use.
+    * Cons: Not flexible and customisable.
 
 ### Undo/redo feature
 
@@ -236,6 +262,85 @@ The following activity diagram summarizes what happens when a Coach executes a n
 
 _{Explain here how the data archiving feature will be implemented}_
 
+## Grouping feature
+
+### Introduction:
+The grouping feature enables the addition and deletion of groups in the addressbook. It provides two commands - “group” and “groupmod” that can be used to add, delete or modify groups in the addressbook.
+
+###Architecture:
+The grouping feature is supported by two classes: the `Group` class and the `UniqueGroupList` class. The `Group` class consists of two attributes a `UniquePersonList` (similar to that present in the `Addressbook`) and a `Tag`,
+While  the `UniqueGroupList` is essentially a list of unique groups. The class diagram below  illustrates the relationship between the two classes.
+
+![GroupListClassDiagram](images/GroupListclassdiagram.png)
+
+###Commands:
+To allow coaches to take full advantage of the grouping functionality, two commands are required.
+####`GroupCommand`
+1. “group” command: This command is used to add or delete groups from the addressbook. The syntax of the “group” command is as follows:
+   group [m/add/remove] g/[group_name]
+   where:
+2. m/: flag to indicate the type of modification
+   1. add: command to add a new group
+   2. remove: command to delete an existing group
+3. g/: flag to indicate the group name
+
+####Flow of events for the `GroupCommand`
+To add a new `Group` with the `Tag` “Hall”, the user can execute the following command:
+
+######group m/add g/Hall
+
+When the user gives the above input, a `Tag` object of name Hall is created,
+this tag is tied to a `Group` class which will be added to `UniqueGroupList` in the exisiting `Addressbook`.
+The object diagram shown depicts such an instance.
+
+![GroupObject](images/GroupObject.png)
+
+#####Deletion of a group
+To delete an existing group with the name “Hall”, the user can execute the following command:
+1. group del g/Hall
+
+This will trigger method deleteGroup() in modelmanager that will call the method deleteGroup() in addressbook.
+During this method, the group cannot merely be deleted. It must first iterate through every person on the list and remove the "Hall"
+Tag for every person. Only after removing all "Hall" tags in the addressbook can we delete the specified group.
+####`GroupModifyCommand`
+After enabling the creation and deletion of groups, the next step is to allow the addition and removal of
+students to or from Groups. The groupmod command allows for such a function. Below are the specifications.
+
+#####“groupmod” command: This command is used to modify existing groups in the addressbook. The syntax of the “groupmod” command is as follows:
+
+`groupmod [add/del] s/[student_name] g/[group_name]`
+   where:
+1. `index`: indicates the index of the student to be added of deleted from the group
+2. `m/`: flag to indicate the type of modification
+   1. add: command to add a student to an existing group
+   2. remove: command to remove a student from an existing group
+3. `g/`: flag to indicate the group name
+
+####Example:
+1. To add a student named “John” to an existing group named “Hall”, the user can execute the following command:
+2. groupmod add 1 g/Hall if we assume John is at index 1.
+
+In such a scenario, two key things occur.
+1. The student John will be added to the `Group` with a `Tag` "Hall".
+2. The `Tag` "Hall" will be added to the list of tags in John's attribute.
+
+#####Removal of students from a group
+To remove a student named “John” from an existing group named “Hall”, the user can execute the following command:
+######groupmod 1 m/remove g/Hall
+
+####Sequence Of Events:
+1. When the command is called, the parser finds the person at index 1 and creates a` Group` of name "Hall"
+2. These two objects will create the `GroupModifyCommand`
+3. Once the execute() method is called on the `Command` object
+4. removePersonFromGroup(John) method is called in the `Model`
+5. This calls the similarly named method in the `Addressbook` which will check whether the Hall group exists
+6. If it does, John will be removed from the Hall group.
+7. John's Hall group tag will also be removed.
+
+###Conclusion:
+   The grouping feature provides a way to add, delete and modify groups in the addressbook. It is built on top of the UniqueGroupList data structure and provides two commands - “group” and “groupmod” - to perform the desired operations.
+Although the overall design of the GroupList may seem like an inefficient use of space, since we store duplicate copies of a person, a person belongs to every exisiting group. It makes implementatoin a lot easier, an allows more operations to be implemented in the future.
+
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -280,6 +385,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | coach                             | edit a student                                 | update a student's details                                             |
 | `* *`    | coach                             | find a student by name                         | locate details of student without having to go through the entire list |
 | `* *`    | coach                             | hide private contact details                   | minimize chance of someone else seeing them by accident                |
+| `* *`    | coach                             | organise  students  by groups                  | facilitate better contact management                                   |
 | `*`      | coach with many students          | sort students by name                          | locate a student easily                                                |
 | `*`      | coach with many training sessions | I would like to view my schedule as a calendar | to better plan my week.                                                |
 
@@ -457,6 +563,16 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 2. SportSync redoes the mistakenly undone command.
 
    Use case ends.
+
+### Use case: View calendar events
+
+**MSS**
+
+1. User requests to view the calendar events.
+2. SportSync displays the calendar events on the interface.
+3. User interacts with the calendar events as required. 
+
+    Use case ends.
 
 ### Features
 

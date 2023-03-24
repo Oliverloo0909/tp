@@ -175,34 +175,48 @@ Format: `exit`
 
 ### Sorting the contact list : `sort`
 
-Sorts all entries in the address book.
+Sorts all entries in the address book according to provided attribute.
 
-Format: `sort`
+Format: `sort ATTRIBUTE ORDER`
 
-### Creating a group : `group`
+* Sorts the person according to specified attribute `ATTRIBUTE` and in specified `ORDER`.
+* Attributes:
+  * 1 - Name
+  * 2 - Pay Rate
+  * 3 - Date
+* Order:
+  * 1 - Ascending
+  * 2 - Descending
 
-Creates a group to add persons to.
+Examples:
+* `sort 1 0` sorts the address book according to pay rate, from cheapest to most expensive.
 
-Format: `group t/GROUPNAME`
+### Creating/Deleting a group : `group`
+
+Creates/Deletes a group to add persons to.
+
+Format: `group m/add g/GROUPNAME`
 
 * Creates a group of name `GROUPNAME`
-* Name field **must be provided.**
+* Name field g/ **must be provided.**
+* Modification field m/ **must be provided.**
 
 Examples:
 * `group n/Team Dynamite` creates a group of name `Team Dynamite`.
 
-### Adding persons to a group : `groupadd`
+### Add/Removes persons to/from a group : `groupmod`
 
-Adds a person to a group.
+Adds/Deletes a person to a group.
 
-Format: `groupadd INDEX t/GROUPNAME`
+Format: `groupmod INDEX m/add g/GROUPNAME`
 
 * Adds a person at the specified `INDEX` to the group with specified `GROUPNAME`.
-* Both index and group **must already exist and be provided.**
+* Both index, modification field and group **must already exist and be provided.**
 * A person cannot be added to a group they are already in.
+* A person cannot be removed from a group it does not belong to.
 
 Examples:
-* `groupadd 2 n/Team Dynamite` adds the 2nd person in the address book to the group named `Team Dynamite`.
+* `groupmod 2 g/TeamDynamite m/add` adds the 2nd person in the address book to the group named `Team Dynamite`.
 
 ### Showing persons from a tag : `show`
 

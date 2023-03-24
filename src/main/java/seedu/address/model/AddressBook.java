@@ -314,7 +314,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         return persons.hashCode();
     }
 
-    public void sort() {
-        persons.sort();
+    public void sort(int targetField) {
+        persons.sort(targetField);
     }
 }

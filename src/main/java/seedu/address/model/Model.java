@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.group.Group;
+import seedu.address.model.calendar.CalendarEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -97,9 +98,9 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
-     * Sorts the filter of the filtered person list in alphabetical order.
+     * Sorts the person list with specified attribute.
      */
-    void sortAddressBook();
+    void sortAddressBook(int targetField);
 
     /**
      * Commits the current state of the address book.
@@ -134,4 +135,7 @@ public interface Model {
     void updateFilteredGroupList(Predicate<Group> predicate);
 
     void removePersonFromGroup(Person personToGroupMod, Group groupToMod);
+    ObservableList<CalendarEvent> getFilteredCalendarEventList();
+
+    void updateCalendarEventList();
 }
