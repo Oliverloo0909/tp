@@ -21,6 +21,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.group.Group;
+import seedu.address.model.calendar.CalendarEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
@@ -166,7 +167,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void sortAddressBook() {
+        public void sortAddressBook(int attribute) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -212,6 +213,14 @@ public class AddCommandTest {
         @Override
         public void removePersonFromGroup(Person personToGroupMod, Group groupToMod) {
             throw new AssertionError("This method should not be called.");
+        }
+        public ObservableList<CalendarEvent> getFilteredCalendarEventList() {
+            return null;
+        }
+
+        @Override
+        public void updateCalendarEventList() {
+
         }
     }
 

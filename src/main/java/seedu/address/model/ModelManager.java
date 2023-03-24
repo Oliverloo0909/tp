@@ -7,12 +7,14 @@ import java.nio.file.Path;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.group.Group;
+import seedu.address.model.calendar.CalendarEvent;
 import seedu.address.model.person.Person;
 import seedu.address.model.tag.Tag;
 
@@ -27,6 +29,8 @@ public class ModelManager implements Model {
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Tag> filteredTags;
     private final FilteredList<Group> filteredGroups;
+    private final ObservableList<CalendarEvent> calendarEventList;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -42,6 +46,7 @@ public class ModelManager implements Model {
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         filteredTags = new FilteredList<>(this.addressBook.getTagList());
         filteredGroups = new FilteredList<>(this.addressBook.getGroupList());
+        this.calendarEventList = FXCollections.observableArrayList();
     }
 
     public ModelManager() {
@@ -96,8 +101,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void sortAddressBook() {
-        addressBook.sort();
+    public void sortAddressBook(int targetField) {
+        addressBook.sort(targetField);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
     }
 
@@ -207,6 +212,21 @@ public class ModelManager implements Model {
     }
 
 
+    public ObservableList<CalendarEvent> getFilteredCalendarEventList() {
+        ObservableList<Person> lastShownList = this.filteredPersons;
+        ObservableList<CalendarEvent> calendarEventList = getCalendarEventList(lastShownList);
+        return calendarEventList; }
+
+    private ObservableList<CalendarEvent> getCalendarEventList(ObservableList<Person> lastShownList) {
+        calendarEventList.clear();
+        lastShownList.stream().map(x -> x.getCalendarEvents()).forEach(e -> calendarEventList.addAll(e));
+        return calendarEventList;
+    }
+
+    @Override
+    public void updateCalendarEventList() {
+        getCalendarEventList(filteredPersons);
+    }
 
     @Override
     public boolean equals(Object obj) {
