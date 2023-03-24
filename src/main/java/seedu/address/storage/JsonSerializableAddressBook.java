@@ -1,5 +1,6 @@
 package seedu.address.storage;
 
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.address.logic.commands.GroupCommand.MESSAGE_DUPLICATE_GROUP;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ class JsonSerializableAddressBook {
     public JsonSerializableAddressBook(
             @JsonProperty("persons") List<JsonAdaptedPerson> persons,
             @JsonProperty("groups") List<JsonAdaptedGroup> groups) {
+        requireAllNonNull(persons, groups);
         this.persons.addAll(persons);
         this.groups.addAll(groups);
     }
@@ -65,6 +67,7 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
         }
 
+        /**
         for (JsonAdaptedGroup jsonAdaptedGroup : groups) {
             Group group = jsonAdaptedGroup.toModelType();
             if (addressBook.hasGroup(group)) {
@@ -72,7 +75,7 @@ class JsonSerializableAddressBook {
             }
             addressBook.addGroup(group);
         }
-
+         */
         return addressBook;
     }
 }
