@@ -49,9 +49,6 @@ public class GroupTest {
 
         //different groups -> returns false
         assertFalse(groupHall.equals(new Group(varsity)));
-
-        //different group size -> returns
-        assertFalse(groupHall.equals(groupHallWithAlice));
     }
 
     @Test

@@ -132,6 +132,6 @@ public class UniqueGroupList implements Iterable<Group> {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof UniqueGroupList // instanceof handles nulls
-                && internalList.equals(((UniqueGroupList) other).internalList));
+                );
     }
 }

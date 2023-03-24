@@ -70,6 +70,8 @@ public class AddressBookTest {
     public void addGroupTest() {
         AddressBook addressBookTest = new AddressBook();
         addressBookTest.addGroup(testGroup);
+        System.out.println(addressBookTest.getGroupList());
+        System.out.println(addressBook.getGroupList());
         assertFalse(addressBook.equals(addressBookTest));
     }
 

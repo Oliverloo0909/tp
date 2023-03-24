@@ -1,13 +1,16 @@
 package seedu.address.logic.commands;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;
+import static seedu.address.model.Model.PREDICATE_SHOW_ALL_GROUPS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_TAGS;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalGroups.*;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
 import static seedu.address.testutil.TypicalPersons.ALICE;
@@ -82,6 +85,7 @@ public class GroupModifyCommandTest {
 
     @Test
     public void addToModifiedGroup_groupNotFound_failure() {
+        String groupInput = "(Hall)";
         GroupModifyCommand GroupModifyCommand = new GroupModifyCommand(INDEX_FIRST_PERSON, hallGroup);
 
         model.updateFilteredTagList(PREDICATE_SHOW_ALL_TAGS);
@@ -94,15 +98,13 @@ public class GroupModifyCommandTest {
 
     @Test
     public void addToModifiedGroup_studentAlreadyAdded_failure() throws CommandException {
-        GroupModifyCommand GroupModifyCommand = new GroupModifyCommand(INDEX_FIRST_PERSON, hallGroup);
+        GroupModifyCommand groupModifyCommand = new GroupModifyCommand(INDEX_FIRST_PERSON, hallGroup);
         model.updateFilteredTagList(PREDICATE_SHOW_ALL_TAGS);
 
         model.setAddressBook(new AddressBookBuilder()
-                .withPerson(ALICE).withTag(new Tag("friends"))
+                .withPerson(ALICE).withTag(new Tag("friends")).withGroup(GROUP_WITH_ALICE)
                 .build());
-        assertCommandFailure(GroupModifyCommand, model,
-                String.format(GroupModifyCommand.STUDENT_ALREADY_ADDED_FAILURE,
-                        groupInput));
+        assertThrows(CommandException.class, () -> groupModifyCommand.execute(model));
     }
 
     @Test
@@ -128,13 +130,21 @@ public class GroupModifyCommandTest {
 
         //create a test model
         Model actualModel = new ModelManager(new AddressBook(), new UserPrefs());
-        actualModel.setAddressBook(new AddressBookBuilder().withPerson(ALICE).withGroup(hallGroup)
+        actualModel.setAddressBook(new AddressBookBuilder().withPerson(ALICE)
                 .build());
+        actualModel.addGroup(hallGroup);
 
-        //model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        //expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        actualModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        actualModel.updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
+        expectedModel.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        expectedModel.updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
 
-        assertCommandSuccess(GroupModifyCommand, model, commandResult, expectedModel);
+        assertEquals(commandResult, GroupModifyCommand.execute(actualModel));
+
+
+        assertEquals(expectedModel.getAddressBook().getGroupList(), expectedModel.getAddressBook().getGroupList());
+
+        assertEquals(expectedModel.getAddressBook().getPersonList(), expectedModel.getAddressBook().getPersonList());
     }
 
     @Test

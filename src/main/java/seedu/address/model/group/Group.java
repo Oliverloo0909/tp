@@ -101,21 +101,7 @@ public class Group {
 
         Group otherGroup = (Group) other;
 
-        if (!this.name.equals(otherGroup.getName())) {
-            return false;
-        }
-
-        if (this.size() != otherGroup.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < this.size(); i++) {
-            if (!this.get(i).equals(otherGroup.get(i))) {
-                return false;
-            }
-        }
-
-        return true;
+        return otherGroup.name.equals(this.name);
     }
 
     /**
