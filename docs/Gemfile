@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-gem 'nokogiri'
-gem 'rack', '~> 2.2.4'
+gem 'nokogiri', '>= 1.15.6'
+gem 'rack', '~> 2.2.8', '>= 2.2.8.1'
 gem 'rspec'
 gem "jekyll", "~> 4.0"
 gem "minima"
